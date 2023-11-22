@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Stock;
-use App\Http\Requests\StoreStockRequest;
-use App\Http\Requests\UpdateStockRequest;
+use App\Http\Requests\StockRequest;
+use Exception;
+use PDOException;
 
 class StockController extends Controller
 {
@@ -15,7 +16,12 @@ class StockController extends Controller
      */
     public function index()
     {
-        //
+        try{
+            $data = Stock::get();
+            return response()->json(['status' => true, 'message' => 'menampilkan data success','data' => $data]);
+        }catch(Exception | PDOException $e){
+            return response()->json(['status' => false, 'message' => 'menampilkan data failed']);
+        }
     }
 
     /**
@@ -34,9 +40,15 @@ class StockController extends Controller
      * @param  \App\Http\Requests\StoreStockRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreStockRequest $request)
+    public function store(StockRequest $request)
     {
-        //
+        try{
+            $validated = $request->validated();
+            $data = Stock::create($validated);
+            return response()->json(['status' => true, 'message' => 'input data success', 'data' => $data]);
+        }catch(Exception | PDOException $e){
+            return response()->json(['status' => false, 'messasge' => 'input data failed']);
+        }
     }
 
     /**
@@ -68,9 +80,15 @@ class StockController extends Controller
      * @param  \App\Models\Stock  $stock
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateStockRequest $request, Stock $stock)
+    public function update(StockRequest $request, Stock $stock)
     {
-        //
+        try{
+            $validated = $request->validated();
+            $stock->update($validated);
+            return response()->json(['status' => true, 'message' => 'update data success']);
+        }catch(Exception | PDOException $e){
+            return response()->json(['status' => false, 'messasge' => 'update data failed']);
+        }
     }
 
     /**
@@ -81,6 +99,11 @@ class StockController extends Controller
      */
     public function destroy(Stock $stock)
     {
-        //
+        try{
+            $data = $stock->delete();
+            return response()->json(['status' => true, 'message' => 'delete data success', 'data' => $data]);
+        }catch(Exception | PDOException $e){
+            return response()->json(['status' => false, 'messasge' => 'delete data failed']);
+        }
     }
 }

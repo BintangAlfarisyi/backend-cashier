@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\JenisController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\StockController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,3 +21,4 @@ use Illuminate\Support\Facades\Route;
 Route::apiResource('/category', CategoryController::class);
 Route::apiResource('/products', ProductController::class);
 Route::apiResource('/jenis', JenisController::class);
+Route::apiResource('/stock', StockController::class);
