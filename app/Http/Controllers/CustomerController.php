@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CustomerRequest;
 use App\Models\Customer;
-use App\Http\Requests\StoreCustomerRequest;
-use App\Http\Requests\UpdateCustomerRequest;
+use Exception;
+use PDOException;
 
 class CustomerController extends Controller
 {
@@ -15,7 +16,12 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        //
+        try{
+            $data = Customer::get();
+            return response()->json(['status' => true, 'message' => 'menampilkan data success','data' => $data]);
+        }catch(Exception | PDOException $e){
+            return response()->json(['status' => false, 'message' => 'menampilkan data failed']);
+        }
     }
 
     /**
@@ -34,9 +40,15 @@ class CustomerController extends Controller
      * @param  \App\Http\Requests\StoreCustomerRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreCustomerRequest $request)
+    public function store(CustomerRequest $request)
     {
-        //
+        try{
+            $validated = $request->validated();
+            $data = Customer::create($validated);
+            return response()->json(['status' => true, 'message' => 'input data success', 'data' => $data]);
+        }catch(Exception | PDOException $e){
+            return response()->json(['status' => false, 'messasge' => 'input data failed']);
+        }
     }
 
     /**
@@ -68,9 +80,15 @@ class CustomerController extends Controller
      * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateCustomerRequest $request, Customer $customer)
+    public function update(CustomerRequest $request, Customer $customer)
     {
-        //
+        try{
+            $validated = $request->validated();
+            $customer->update($validated);
+            return response()->json(['status' => true, 'message' => 'update data success']);
+        }catch(Exception | PDOException $e){
+            return response()->json(['status' => false, 'messasge' => 'update data failed']);
+        }
     }
 
     /**
@@ -81,6 +99,11 @@ class CustomerController extends Controller
      */
     public function destroy(Customer $customer)
     {
-        //
+        try{
+            $data = $customer->delete();
+            return response()->json(['status' => true, 'message' => 'delete data success', 'data' => $data]);
+        }catch(Exception | PDOException $e){
+            return response()->json(['status' => false, 'messasge' => 'delete data failed']);
+        }
     }
 }

@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Menu;
-use App\Http\Requests\StoreMenuRequest;
-use App\Http\Requests\UpdateMenuRequest;
+use App\Http\Requests\MenuRequest;
+use Exception;
+use PDOException;
 
 class MenuController extends Controller
 {
@@ -15,7 +16,12 @@ class MenuController extends Controller
      */
     public function index()
     {
-        //
+        try{
+            $data = Menu::get();
+            return response()->json(['status' => true, 'message' => 'menampilkan data success','data' => $data]);
+        }catch(Exception | PDOException $e){
+            return response()->json(['status' => false, 'message' => 'menampilkan data failed']);
+        }
     }
 
     /**
@@ -34,9 +40,15 @@ class MenuController extends Controller
      * @param  \App\Http\Requests\StoreMenuRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreMenuRequest $request)
+    public function store(MenuRequest $request)
     {
-        //
+        try{
+            $validated = $request->validated();
+            $data = Menu::create($validated);
+            return response()->json(['status' => true, 'message' => 'input data success', 'data' => $data]);
+        }catch(Exception | PDOException $e){
+            return response()->json(['status' => false, 'messasge' => 'input data failed']);
+        }
     }
 
     /**
@@ -68,9 +80,15 @@ class MenuController extends Controller
      * @param  \App\Models\Menu  $menu
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateMenuRequest $request, Menu $menu)
+    public function update(MenuRequest $request, Menu $menu)
     {
-        //
+        try{
+            $validated = $request->validated();
+            $menu->update($validated);
+            return response()->json(['status' => true, 'message' => 'update data success']);
+        }catch(Exception | PDOException $e){
+            return response()->json(['status' => false, 'messasge' => 'update data failed']);
+        }
     }
 
     /**
@@ -81,6 +99,11 @@ class MenuController extends Controller
      */
     public function destroy(Menu $menu)
     {
-        //
+        try{
+            $data = $menu->delete();
+            return response()->json(['status' => true, 'message' => 'delete data success', 'data' => $data]);
+        }catch(Exception | PDOException $e){
+            return response()->json(['status' => false, 'messasge' => 'delete data failed']);
+        }
     }
 }

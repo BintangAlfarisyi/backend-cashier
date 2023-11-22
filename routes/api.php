@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\JenisController;
+use App\Http\Controllers\MenuController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StockController;
 use Illuminate\Http\Request;
@@ -22,3 +24,5 @@ Route::apiResource('/category', CategoryController::class);
 Route::apiResource('/products', ProductController::class);
 Route::apiResource('/jenis', JenisController::class);
 Route::apiResource('/stock', StockController::class);
+Route::apiResource('/customer', CustomerController::class);
+Route::apiResource('/menu', MenuController::class);
