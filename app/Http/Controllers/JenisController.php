@@ -36,7 +36,7 @@ class JenisController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
+     *  
      * @param  \App\Http\Requests\StoreJenisRequest  $request
      * @return \Illuminate\Http\Response
      */
@@ -80,11 +80,11 @@ class JenisController extends Controller
      * @param  \App\Models\Jenis  $jenis
      * @return \Illuminate\Http\Response
      */
-    public function update(JenisRequest $request, Jenis $jenis)
+    public function update(JenisRequest $request, Jenis $jeni)
     {
         try{
             $validated = $request->validated();
-            $jenis->update($validated);
+            $jeni->update($validated);
             return response()->json(['status' => true, 'message' => 'update data success']);
         }catch(Exception | PDOException $e){
             return response()->json(['status' => false, 'messasge' => 'update data failed']);
@@ -97,10 +97,10 @@ class JenisController extends Controller
      * @param  \App\Models\Jenis  $jenis
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Jenis $jenis)
+    public function destroy(Jenis $jeni)
     {
         try{
-            $data = $jenis->delete();
+            $data = $jeni->delete();
             return response()->json(['status' => true, 'message' => 'delete data success', 'data' => $data]);
         }catch(Exception | PDOException $e){
             return response()->json(['status' => false, 'messasge' => 'delete data failed']);

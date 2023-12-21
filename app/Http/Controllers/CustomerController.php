@@ -47,7 +47,7 @@ class CustomerController extends Controller
             $data = Customer::create($validated);
             return response()->json(['status' => true, 'message' => 'input data success', 'data' => $data]);
         }catch(Exception | PDOException $e){
-            return response()->json(['status' => false, 'messasge' => 'input data failed']);
+            return response()->json(['status' => false, 'messasge' => $e->getMessage()]);
         }
     }
 
