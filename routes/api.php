@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\JenisController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\OrderController;
@@ -36,3 +37,4 @@ Route::apiResource('/transaction', TransactionController::class);
 Route::apiResource('/transactionDetail', TransactionDetailController::class);
 Route::apiResource('/table', TableController::class);
 Route::apiResource('/order', OrderController::class);
+Route::apiResource('/employee', EmployeeController::class);

@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Employee;
-use App\Http\Requests\StoreEmployeeRequest;
-use App\Http\Requests\UpdateEmployeeRequest;
+use App\Http\Requests\EmployeeRequest;
+use Exception;
+use PDOException;
 
 class EmployeeController extends Controller
 {
@@ -15,7 +16,12 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            $data = Employee::get();
+            return response()->json(['status' => true, 'message' => 'menampilkan data success', 'data' => $data]);
+        } catch (Exception | PDOException $e) {
+            return response()->json(['status' => false, 'message' => 'menampilkan data failed']);
+        }
     }
 
     /**
@@ -34,9 +40,15 @@ class EmployeeController extends Controller
      * @param  \App\Http\Requests\StoreEmployeeRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreEmployeeRequest $request)
+    public function store(EmployeeRequest $request)
     {
-        //
+        try {
+            $validated = $request->validated();
+            $data = Employee::create($validated);
+            return response()->json(['status' => true, 'message' => 'input data success', 'data' => $data]);
+        } catch (Exception | PDOException $e) {
+            return response()->json(['status' => false, 'messasge' => 'input data failed']);
+        }
     }
 
     /**
@@ -68,9 +80,15 @@ class EmployeeController extends Controller
      * @param  \App\Models\Employee  $employee
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateEmployeeRequest $request, Employee $employee)
+    public function update(EmployeeRequest $request, Employee $employee)
     {
-        //
+        try{
+            $validated = $request->validated();
+            $employee->update($validated);
+            return response()->json(['status' => true, 'message' => 'update data success']);
+        }catch(Exception | PDOException $e){
+            return response()->json(['status' => false, 'messasge' => $e->getMessage()]);
+        }
     }
 
     /**
@@ -81,6 +99,11 @@ class EmployeeController extends Controller
      */
     public function destroy(Employee $employee)
     {
-        //
+        try{
+            $data = $employee->delete();
+            return response()->json(['status' => true, 'message' => 'delete data success', 'data' => $data]);
+        }catch(Exception | PDOException $e){
+            return response()->json(['status' => false, 'messasge' => 'delete data failed']);
+        }
     }
 }

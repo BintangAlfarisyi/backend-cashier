@@ -15,6 +15,18 @@ return new class extends Migration
     {
         Schema::create('employees', function (Blueprint $table) {
             $table->id();
+            $table->integer('nip');
+            $table->integer('nik');
+            $table->string('nama');
+            $table->enum('jenis_kelamin', ['pria', 'wanita']);
+            $table->string('tempat_lahir');
+            $table->date('tanggal_lahir');
+            $table->integer('telpon');
+            $table->string('agama');
+            $table->enum('status_nikah', ['nikah', 'belum nikah']);
+            $table->string('alamat');
+            $table->integer('golongan_id');
+            $table->string('foto');
             $table->timestamps();
         });
     }
